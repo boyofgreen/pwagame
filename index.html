@@ -135,6 +135,7 @@ justify-content: space-around;
   background: radial-gradient(ellipse at center, #4171af 0%,#2285d6 9%,#1c5bb2 19%,#2285d6 31%,#1c5bb2 43%,#1c5bb2 52%,#1c5bb2 52%,#207cca 62%,#207cca 62%,#207cca 77%,#1c5bb2 87%,#1e5799 93%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   color: white;
   transition: all 1s ease-in-out;
+  position: relative;
 }
 
 h1 {
@@ -155,7 +156,7 @@ h4 {
 
 #play {
   color: pink;
-  height: 15em;
+  height: 250px;
   font-size: 10em;
   display: flex;
   align-items: center;
@@ -165,7 +166,9 @@ h4 {
   box-shadow: 0px -7px 23px -6px rgba(0,0,0,0.85);
   width: 100vw;
   margin-top: 25vh;
-}
+  position: absolute;
+  bottom: 0;
+  }
 #start.hidden-box {
   height: 1px;
   overflow: hidden;
