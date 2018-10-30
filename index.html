@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Card slide flip</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+<style>
+
+  @font-face{ 
+	font-family: 'Wonderbar';
+	src: url('Wonderbar.otf');
+}
+
+h1, h2, h3, h4, #play {
+  font-family: Wonderbar;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5em;
+  margin-top: 5px;
+}
+ h2 {
+   color: green
+ }
+html, body, p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+}
+body {
+  background-color: #4171af;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  height: 200vh;
+  user-select: none;
+  -ms-user-select: none;
+}
+
+
+.scene {
+  width: 200px;
+  height: 260px;
+  xborder: 1px solid #CCC;
+  margin: 40px 0;
+  perspective: 600px;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: all 1s;
+}
+
+.scene.is-flipped {
+  width: 600px;
+  height: 720px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: all 1s;
+}
+
+.card.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
+  width: 100%;
+  height: 100%;
+}
+
+.card p {
+  font-size: .8em;
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  background: transparent;
+}
+
+.card__face--back {
+  padding: 5px;
+  background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e5e5;
+  color: black;
+}
+
+.card-logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#target {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  height: 100vh;
+  
+justify-content: space-around;
+}
+
+.screen-shot {
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+#start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #4171af 0%,#2285d6 9%,#1c5bb2 19%,#2285d6 31%,#1c5bb2 43%,#1c5bb2 52%,#1c5bb2 52%,#207cca 62%,#207cca 62%,#207cca 77%,#1c5bb2 87%,#1e5799 93%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  color: white;
+  transition: all 1s ease-in-out;
+}
+
+h1 {
+  font-size: 10em;
+  color: goldenrod;
+
+}
+h3 {
+  font-size:  5em;
+} 
+
+h4 {
+  font-size: 7em;
+  text-align: right;
+  width: 100%;
+  margin-right: 2em;
+}
+
+#play {
+  color: pink;
+  height: 10em;
+  font-size: 10em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:rgba(34, 122, 202, 0.55);
+  xbox-shadow: 10px 10px 10px #1e5799;
+  box-shadow: 0px -7px 23px -6px rgba(0,0,0,0.85);
+  width: 100vw;
+}
+#start.hidden-box {
+  height: 1px;
+  overflow: hidden;
+}
+
+</style>
+  
+</head>
+
+<body>
+
+  <div id="start">
+    <h3>PWA Builder </h3>
+    <h1>Find the PWA</h1>
+    <h4>GaMe</h4>
+    <div id="play">PLaY</div>
+  </div>
+  <div id="target"></div>
+
+  
+
+<script src="node_modules/handlebars/dist/handlebars.js" ></script>
+<script id="entry-template" type="text/x-handlebars-template">
+  <div class="scene scene--card">
+  <div class="card">
+      <div class="card__face card__face--front">
+        <span class="card-logo" style="background-image:url(images/{{imageurl}})" ></span>
+      </div>
+      <div class="card__face card__face--back">
+      <img class="screen-shot" src="/images/{{screenShot}}"  />
+      <h2>{{answer}}</h2>
+      <p>{{discription}}</p>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script>
+
+var context =[{answer: "correct", imageurl: "twitter-logo.png", screenShot:"twitter-screen.jpg", discription: "Twitter is a PWA primarily on Android and Windows 10.  On Windows 10 it takes advantage of a number of unique Windows APIs"},
+              {answer: "correct", imageurl: "spotify-logo.png", screenShot:"spotify-screen.jpg", discription: "Spotify has a PWA that they use for the browser and for Xbox. They also put their Win32 app in the store for desktop users."},
+              {answer: "correct", imageurl: "office-logo.png", screenShot:"office-screen.png", discription: "You haven't see it yet, but Office is releasing Office PWAs soon"},
+              {answer: "correct", imageurl: "starbucks-logo.png", screenShot:"starbucks-screen.png", discription: "Star Bucks has a PWA, but it's not in the Windows store, but like all PWAs it run's in the browser just fine."},
+              {answer: "correct", imageurl: "soundcloud-logo.png", screenShot:"soundcloud-screen.jpg", discription: "Sound Cloud has a Beta PWA that also ships in the Windows store"}//,
+             // {answer: "correct", imageurl: "skyscanner-logo.png", screenShot:"skyscanner-screen.jpg", discription: "Sky Scanner is an indexed PWA that has a lot of followers in the Windows Store"},
+            //  {answer: "correct", imageurl: "linkedin-logo.png", screenShot:"linkedin-screen.jpg", discription: "LinkedIn was one of our early first party PWAs that uses native Windows 10 features like rich push notifications and share."},
+            //  {answer: "correct", imageurl: "crackle-logo.png", screenShot:"crackle-screen.jpg", discription: "Crackle is one of the many media apps that use PWA to build a single app that works across paltforms."}
+
+              ] ;
+
+
+
+
+var source   = document.getElementById("entry-template").innerHTML;
+var template = Handlebars.compile(source);
+var html = template(context);
+html = '';
+
+//var scene = document.querySelector('.scene').innerHTML; //= html;
+
+for (var i = 0; i < context.length; i++) { 
+template = Handlebars.compile(source);
+html += template(context[i]);
+
+    
+} 
+document.querySelector('#target').innerHTML = html;
+
+ var cards = document.querySelectorAll('.card');
+
+for (var i = 0; i < cards.length; i++) { 
+  cards[i].addEventListener( 'pointerdown', function() {
+
+     this.classList.toggle('is-flipped');
+     this.parentNode.classList.toggle('is-flipped')
+});
+
+}
+
+
+document.getElementById('play').addEventListener('click', function(e){
+  document.getElementById('start').classList.add('hidden-box')
+})
+</script>
+
+</body>
+
+</html>
